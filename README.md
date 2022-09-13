@@ -2,5 +2,6 @@
 
 - Terraform scripts to deploy a MEAN stack app on Cloud Run with MongoDB
 Serverless Atlas.
-- Command line app to prompt for configuration and execute Terraform.
+- Command line launcher to prompt for configuration and execute Terraform.
 
+The launcher is a Node.js app under the `launcher` directory.
