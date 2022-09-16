@@ -17,3 +17,21 @@ variable "project_name" {
   description = "the base name to use when creating resources. a randomized suffix will be added."
   default     = "gcp-meanstack-demo"
 }
+
+variable "atlas_pub_key" {
+  description = "public key for MongoDB Atlas"
+}
+
+variable "atlas_priv_key" {
+  description = "private key for MongoDB Atlas"
+}
+
+variable "atlas_org_id" {
+  description = "the ID of your MongoDB Atlas organization"
+}
+
+variable "db_name" {
+  type        = string
+  description = "the name of the database to configure"
+  default     = "appdb"
+}

@@ -36,6 +36,12 @@ terraform {
 ### shared config
 ###-----------------------------------------------------------------------------
 
+resource "random_string" "mongodb_password" {
+  length  = 32
+  special = false
+  upper   = true
+}
+
 resource "random_string" "suffix" {
   length  = 8
   special = false
