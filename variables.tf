@@ -39,6 +39,22 @@ variable "atlas_cluster_tier" {
   default     = "M0"
 }
 
+# Please refer to https://www.mongodb.com/docs/atlas/reference/google-gcp/#std-label-google-gcp
+# for a mapping of Atlas region names to Google Cloud region names. In most
+# you should use the same region for both variables.
+
+variable "atlas_cluster_region" {
+  type = string
+  description = "the Atlas region in which to create the database cluster"
+  default = "CENTRAL_US"
+}
+
+variable "google_cloud_region" {
+  type = string
+  description = "the Google Cloud region in which to create resources"
+  default = "us-central1"
+}
+
 variable "db_name" {
   type        = string
   description = "the name of the database to configure"
