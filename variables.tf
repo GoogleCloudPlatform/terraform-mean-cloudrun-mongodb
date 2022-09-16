@@ -19,14 +19,17 @@ variable "project_name" {
 }
 
 variable "atlas_pub_key" {
+  type        = string
   description = "public key for MongoDB Atlas"
 }
 
 variable "atlas_priv_key" {
+  type        = string
   description = "private key for MongoDB Atlas"
 }
 
 variable "atlas_org_id" {
+  type        = string
   description = "the ID of your MongoDB Atlas organization"
 }
 
