@@ -34,7 +34,7 @@ resource "mongodbatlas_cluster" "cluster" {
   provider_name               = "TENANT"
   backing_provider_name       = "GCP"
   provider_region_name        = "CENTRAL_US"
-  provider_instance_size_name = "M0"
+  provider_instance_size_name = var.atlas_cluster_tier
 }
 
 resource "mongodbatlas_database_user" "user" {

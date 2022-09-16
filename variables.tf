@@ -33,6 +33,12 @@ variable "atlas_org_id" {
   description = "the ID of your MongoDB Atlas organization"
 }
 
+variable "atlas_cluster_tier" {
+  type        = string
+  description = "the tier of cluster you want to create. see the Atlas docs for details."
+  default     = "M0"
+}
+
 variable "db_name" {
   type        = string
   description = "the name of the database to configure"
