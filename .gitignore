@@ -4,3 +4,5 @@
 **/.terraform/*
 *.tfstate
 *.tfstate.*
+
+*.auto.tfvars
