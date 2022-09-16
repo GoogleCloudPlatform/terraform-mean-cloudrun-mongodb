@@ -33,5 +33,5 @@ variable "atlas_org_id" {
 variable "db_name" {
   type        = string
   description = "the name of the database to configure"
-  default     = "appdb"
+  default     = "meanStackExample"
 }
