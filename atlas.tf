@@ -49,3 +49,14 @@ resource "mongodbatlas_database_user" "user" {
     database_name = var.db_name
   }
 }
+
+locals {
+  # the demo app only takes URIs with the credentials embedded and the atlas
+  # provider doesn't give us a good way to get the hostname without the protocol
+  # part so we end up doing some slicing and dicing to get the creds into the URI
+  atlas_uri = replace(
+    mongodbatlas_cluster.cluster.srv_address,
+    "://",
+    "://${var.db_user}:${mongodbatlas_database_user.user.password}@"
+  )
+}
