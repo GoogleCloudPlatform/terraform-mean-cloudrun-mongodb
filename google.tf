@@ -36,3 +36,36 @@ resource "google_project_service" "svc" {
     "run",
   ])
 }
+
+resource "google_cloud_run_service" "server" {
+  project = google_project.prj.name
+
+  name     = "demo-server"
+  location = var.google_cloud_region
+
+  template {
+    spec {
+      containers {
+        image = var.server_image
+
+        env {
+          name  = "ATLAS_URI"
+          value = local.atlas_uri
+        }
+
+        ports {
+          container_port = 5200
+        }
+      }
+    }
+  }
+}
+
+resource "google_cloud_run_service_iam_binding" "public" {
+  location = google_cloud_run_service.server.location
+  project  = google_cloud_run_service.server.project
+  service  = google_cloud_run_service.server.name
+
+  role    = "roles/run.invoker"
+  members = ["allUsers"]
+}
