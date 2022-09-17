@@ -12,10 +12,49 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+###-----------------------------------------------------------------------------
+### general config
+###-----------------------------------------------------------------------------
+
 variable "project_name" {
   type        = string
   description = "the base name to use when creating resources. a randomized suffix will be added."
   default     = "gcp-meanstack-demo"
+}
+
+###-----------------------------------------------------------------------------
+### region config
+###-----------------------------------------------------------------------------
+
+# Please refer to https://www.mongodb.com/docs/atlas/reference/google-gcp/#std-label-google-gcp
+# for a mapping of Atlas region names to Google Cloud region names. In most cases
+# you should use the same region for both services.
+
+variable "google_cloud_region" {
+  type        = string
+  description = "the Google Cloud region in which to create resources"
+  default     = "us-central1"
+}
+
+variable "atlas_cluster_region" {
+  type        = string
+  description = "the Atlas region in which to create the database cluster"
+  default     = "CENTRAL_US"
+}
+
+###-----------------------------------------------------------------------------
+### MongoDB Atlas
+###-----------------------------------------------------------------------------
+
+variable "atlas_cluster_tier" {
+  type        = string
+  description = "the tier of cluster you want to create. see the Atlas docs for details."
+  default     = "M0" # M0 is the free tier
+}
+
+variable "atlas_org_id" {
+  type        = string
+  description = "the ID of your MongoDB Atlas organization"
 }
 
 variable "atlas_pub_key" {
@@ -28,41 +67,18 @@ variable "atlas_priv_key" {
   description = "private key for MongoDB Atlas"
 }
 
-variable "atlas_org_id" {
-  type        = string
-  description = "the ID of your MongoDB Atlas organization"
-}
-
-variable "atlas_cluster_tier" {
-  type        = string
-  description = "the tier of cluster you want to create. see the Atlas docs for details."
-  default     = "M0"
-}
-
-# Please refer to https://www.mongodb.com/docs/atlas/reference/google-gcp/#std-label-google-gcp
-# for a mapping of Atlas region names to Google Cloud region names. In most
-# you should use the same region for both variables.
-
-variable "atlas_cluster_region" {
-  type = string
-  description = "the Atlas region in which to create the database cluster"
-  default = "CENTRAL_US"
-}
-
-variable "google_cloud_region" {
-  type = string
-  description = "the Google Cloud region in which to create resources"
-  default = "us-central1"
-}
-
-variable "db_user" {
-  type = string
-  description = "the username used to connect to the mongodb cluster"
-  default = "mongo"
-}
+###-----------------------------------------------------------------------------
+### MongoDB database
+###-----------------------------------------------------------------------------
 
 variable "db_name" {
   type        = string
   description = "the name of the database to configure"
   default     = "meanStackExample"
+}
+
+variable "db_user" {
+  type        = string
+  description = "the username used to connect to the mongodb cluster"
+  default     = "mongo"
 }
