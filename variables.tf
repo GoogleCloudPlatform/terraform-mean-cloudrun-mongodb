@@ -55,6 +55,12 @@ variable "google_cloud_region" {
   default = "us-central1"
 }
 
+variable "db_user" {
+  type = string
+  description = "the username used to connect to the mongodb cluster"
+  default = "mongo"
+}
+
 variable "db_name" {
   type        = string
   description = "the name of the database to configure"

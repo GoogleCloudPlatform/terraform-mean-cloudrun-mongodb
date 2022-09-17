@@ -41,7 +41,7 @@ resource "mongodbatlas_database_user" "user" {
   project_id         = mongodbatlas_project.demo.id
   auth_database_name = "admin"
 
-  username = "mongo"
+  username = var.db_user
   password = random_string.mongodb_password.result
 
   roles {
