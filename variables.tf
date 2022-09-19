@@ -42,15 +42,9 @@ variable "atlas_cluster_region" {
   default     = "CENTRAL_US"
 }
 
-variable "client_image" {
-  type = string
-  description = "the fully-qualified name of your client image"
-  default = "us-central1-docker.pkg.dev/next22-mean-stack-demo/demo-app/client:latest"
-}
-
-variable "server_image" {
+variable "app_image" {
   type        = string
-  description = "the fully-qualified name of your server image"
+  description = "the fully-qualified name of your app image"
   default     = "us-central1-docker.pkg.dev/next22-mean-stack-demo/demo-app/server:latest"
 }
 

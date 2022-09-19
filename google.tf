@@ -37,62 +37,34 @@ resource "google_project_service" "svc" {
   ])
 }
 
-resource "google_cloud_run_service" "server" {
+resource "google_cloud_run_service" "app" {
   project = google_project.prj.name
 
-  name     = "demo-server"
+  name     = "demo"
   location = var.google_cloud_region
 
   template {
     spec {
       containers {
-        image = var.server_image
+        image = var.app_image
 
         env {
           name  = "ATLAS_URI"
           value = local.atlas_uri
         }
 
-        ports {
-          container_port = 5200
-        }
+        # ports {
+        #   container_port = 5200
+        # }
       }
     }
   }
 }
 
-resource "google_cloud_run_service_iam_binding" "server" {
-  location = google_cloud_run_service.server.location
-  project  = google_cloud_run_service.server.project
-  service  = google_cloud_run_service.server.name
-
-  role    = "roles/run.invoker"
-  members = ["allUsers"]
-}
-
-resource "google_cloud_run_service" "client" {
-  project = google_project.prj.name
-  name = "demo-client"
-  location = var.google_cloud_region
-
-  template {
-    spec {
-      containers {
-        image = var.client_image
-
-        env {
-          name = "BACKEND_URI"
-          value = google_cloud_run_service.server.status[0].url
-        }
-      }
-    }
-  }
-}
-
-resource "google_cloud_run_service_iam_binding" "client" {
-  location = google_cloud_run_service.client.location
-  project  = google_cloud_run_service.client.project
-  service  = google_cloud_run_service.client.name
+resource "google_cloud_run_service_iam_binding" "app" {
+  location = google_cloud_run_service.app.location
+  project  = google_cloud_run_service.app.project
+  service  = google_cloud_run_service.app.name
 
   role    = "roles/run.invoker"
   members = ["allUsers"]

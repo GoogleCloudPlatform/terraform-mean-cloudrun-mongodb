@@ -12,10 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-output "server_url" {
-  value = google_cloud_run_service.server.status[0].url
-}
-
-output "client_url" {
-  value = google_cloud_run_service.client.status[0].url
+output "app_url" {
+  value = google_cloud_run_service.app.status[0].url
 }
