@@ -69,3 +69,31 @@ resource "google_cloud_run_service_iam_binding" "server" {
   role    = "roles/run.invoker"
   members = ["allUsers"]
 }
+
+resource "google_cloud_run_service" "client" {
+  project = google_project.prj.name
+  name = "demo-client"
+  location = var.google_cloud_region
+
+  template {
+    spec {
+      containers {
+        image = var.client_image
+
+        env {
+          name = "BACKEND_URI"
+          value = google_cloud_run_service.server.status[0].url
+        }
+      }
+    }
+  }
+}
+
+resource "google_cloud_run_service_iam_binding" "client" {
+  location = google_cloud_run_service.client.location
+  project  = google_cloud_run_service.client.project
+  service  = google_cloud_run_service.client.name
+
+  role    = "roles/run.invoker"
+  members = ["allUsers"]
+}
