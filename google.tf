@@ -61,7 +61,7 @@ resource "google_cloud_run_service" "server" {
   }
 }
 
-resource "google_cloud_run_service_iam_binding" "public" {
+resource "google_cloud_run_service_iam_binding" "server" {
   location = google_cloud_run_service.server.location
   project  = google_cloud_run_service.server.project
   service  = google_cloud_run_service.server.name
