@@ -104,8 +104,8 @@ error, check your `terraform.tfvars` file.
 
 ### Run it!
 
-You're finally ready to deploy your application. Run `terraform apply` and you
-should see a several pages of details about what Terraform is going to do:
+You're ready to deploy! Run `terraform apply` and you should see several
+pages of details about what Terraform is going to do:
 
     $ terraform apply
 
@@ -133,3 +133,7 @@ should see a several pages of details about what Terraform is going to do:
 
 If everything looks good to you, type `yes` and hit enter, then go grab a snack
 while Terraform sets everything up for you!
+
+You can also use `terraform plan` if you just want to see what Terraform wants to
+do without risking accidentally running it. You can learn more about the `plan`
+and `apply` commands in [this tutorial](https://learn.hashicorp.com/tutorials/terraform/plan).
