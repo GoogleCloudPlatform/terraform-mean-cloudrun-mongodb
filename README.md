@@ -48,6 +48,13 @@ That's everything for Atlas. Now you're ready to move on to setting up Google Cl
 ### Google Cloud
 
 If you don't already have a Google Cloud account, [sign up here](https://accounts.google.com/SignUp).
+You'll also need to [enable billing](https://console.cloud.google.com/billing)
+and set up a billing account. This demo is designed to qualify for the
+[free tier](https://cloud.google.com/free) but some of the services involved
+require billing to be enabled. See [this page](https://cloud.google.com/billing/docs/how-to/manage-billing-account#create_a_new_billing_account)
+for more information on setting up a billing account. Make a note of your Billing
+Account ID, listed [here](https://console.cloud.google.com/billing).
+
 We recommend using [Cloud Shell](https://cloud.google.com/shell) but if you prefer
 to work locally you can do that too. If you'd like to use Cloud Shell, just click
 this convenient button:
@@ -90,9 +97,10 @@ Terraform is working correctly and download the provider plugins.
 Then, create a file in the root of the repository called `terraform.tfvars` with
 the following contents, replacing placeholders as necessary:
 
-    atlas_pub_key        = "<your Atlas public key>"
-    atlas_priv_key       = "<your Atlas private key>"
-    atlas_org_id         = "<your Atlas organization ID>"
+    atlas_pub_key          = "<your Atlas public key>"
+    atlas_priv_key         = "<your Atlas private key>"
+    atlas_org_id           = "<your Atlas organization ID>"
+    google_billing_account = "<your billing account ID>"
 
 If you selected the `us-central1`/`US_CENTRAL` region then you're ready to go. If
 you selected a different region, add the following to your `terraform.tfvars` file:
