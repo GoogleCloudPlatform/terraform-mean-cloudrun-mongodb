@@ -196,7 +196,10 @@ When you're done, run `terraform destroy` to clean everything up:
 If you're sure you want to tear everything down, type `yes` and press enter. This
 will take a few minutes so now would be a great time for another break. When
 Terraform is done everything it created will have been destroyed and you
-will not be billed for any further usage.
+will not be billed for any further usage. Note that you may still see the project
+listed in the project selector in the Google Cloud console. You can confirm it
+has been marked for deletion by going to the [Resources Pending Deletion](https://console.cloud.google.com/cloud-resource-manager?pendingDeletion=true)
+page and looking for it there.
 
 Next Steps
 --------------------------------------------------------------------------------
