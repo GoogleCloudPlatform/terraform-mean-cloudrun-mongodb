@@ -113,8 +113,16 @@ error, check your `terraform.tfvars` file.
 
 ### Run it!
 
-You're ready to deploy! Run `terraform apply` and you should see several
-pages of details about what Terraform is going to do:
+You're ready to deploy! You have two options: you can run `terraform plan` to
+see a full listing of everything that Terraform wants to do without any risk of
+accidentally creating those resources. If everything looks good, you can then
+run `terraform apply` to execute the plan.
+
+Alternately, you can just run `terraform apply` on its own and it will create
+a plan and display it before prompting you to continue. You can learn more about
+the `plan` and `apply` commands in [this tutorial](https://learn.hashicorp.com/tutorials/terraform/plan).
+
+For this demo, we're going to just run `terraform apply`:
 
     $ terraform apply
 
@@ -141,11 +149,18 @@ pages of details about what Terraform is going to do:
     Enter a value:
 
 If everything looks good to you, type `yes` and hit enter, then go grab a snack
-while Terraform sets everything up for you!
+while Terraform sets everything up for you! When it's done, Terraform will display
+the URL of your application:
 
-You can also use `terraform plan` if you just want to see what Terraform wants to
-do without risking accidentally running it. You can learn more about the `plan`
-and `apply` commands in [this tutorial](https://learn.hashicorp.com/tutorials/terraform/plan).
+    [ ... snip ... ]
+    Apply complete! Resources: 10 added, 0 changed, 0 destroyed.
+
+    Outputs:
+
+    app_url = "https://<randomized url>"
+
+Load that up in your browser and you'll see your app running!
+
 
 ### Cleaning Up
 
