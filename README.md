@@ -102,6 +102,12 @@ the following contents, replacing placeholders as necessary:
     atlas_org_id           = "<your Atlas organization ID>"
     google_billing_account = "<your billing account ID>"
 
+If you used the Open in Cloud Shell button, check to make sure that you're creating
+the `terraform.tfvars` file in the root of the repository. The Cloud Shell
+terminal will be in the right directory but the Cloud Shell editor may not.
+Double-check to be sure you're creating the file in the same directory as this
+README.
+
 If you selected the `us-central1`/`US_CENTRAL` region then you're ready to go. If
 you selected a different region, add the following to your `terraform.tfvars` file:
 
