@@ -146,3 +146,34 @@ while Terraform sets everything up for you!
 You can also use `terraform plan` if you just want to see what Terraform wants to
 do without risking accidentally running it. You can learn more about the `plan`
 and `apply` commands in [this tutorial](https://learn.hashicorp.com/tutorials/terraform/plan).
+
+### Cleaning Up
+
+When you're done, run `terraform destroy` to clean everything up:
+
+    $ terraform destroy
+
+    [... snip ...]
+
+    Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+    - destroy
+
+    Terraform will perform the following actions:
+
+    [... snip ...]
+
+    Plan: 0 to add, 0 to change, 10 to destroy.
+
+    Changes to Outputs:
+    - app_url = "https://example.com" -> null
+
+    Do you really want to destroy all resources?
+    Terraform will destroy all your managed infrastructure, as shown above.
+    There is no undo. Only 'yes' will be accepted to confirm.
+
+    Enter a value:
+
+If you're sure you want to tear everything down, type `yes` and hit enter. This
+will take a few minutes so now would be a great time for another break. When
+Terraform is done everything it created will have been destroyed and you
+will not be billed for any further usage.
