@@ -55,6 +55,8 @@ resource "google_cloud_run_service" "app" {
       }
     }
   }
+
+  depends_on = [google_project_service.svc["run"]]
 }
 
 resource "google_cloud_run_service_iam_binding" "app" {
