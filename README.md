@@ -60,7 +60,7 @@ you're ready to move on to running the demo. You can also [open Cloud Shell the 
 but you'll need to clone this repo yourself.
 
 If you want to work locally, you'll need to [install the `gcloud` tool](https://cloud.google.com/sdk/docs/install).
-Confidential to Mac users: `gcloud` is also available [via homebrew](https://formulae.brew.sh/cask/google-cloud-sdk).
+If you're on MacOS you can also install `gcloud` [via homebrew](https://formulae.brew.sh/cask/google-cloud-sdk).
 Once the install is done, run `gcloud init` to set up your environment. More
 information can be found [in the docs](https://cloud.google.com/sdk/docs/initializing).
 
