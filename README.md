@@ -148,7 +148,7 @@ For this demo, we're going to just run `terraform apply`:
 
     Enter a value:
 
-If everything looks good to you, type `yes` and hit enter, then go grab a snack
+If everything looks good to you, type `yes` and press enter, then go grab a snack
 while Terraform sets everything up for you! When it's done, Terraform will display
 the URL of your application:
 
@@ -188,7 +188,7 @@ When you're done, run `terraform destroy` to clean everything up:
 
     Enter a value:
 
-If you're sure you want to tear everything down, type `yes` and hit enter. This
+If you're sure you want to tear everything down, type `yes` and press enter. This
 will take a few minutes so now would be a great time for another break. When
 Terraform is done everything it created will have been destroyed and you
 will not be billed for any further usage.
