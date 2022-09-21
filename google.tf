@@ -52,10 +52,6 @@ resource "google_cloud_run_service" "app" {
           name  = "ATLAS_URI"
           value = local.atlas_uri
         }
-
-        # ports {
-        #   container_port = 5200
-        # }
       }
     }
   }
