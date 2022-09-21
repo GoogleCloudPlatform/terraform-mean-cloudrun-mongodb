@@ -197,3 +197,28 @@ If you're sure you want to tear everything down, type `yes` and press enter. Thi
 will take a few minutes so now would be a great time for another break. When
 Terraform is done everything it created will have been destroyed and you
 will not be billed for any further usage.
+
+Next Steps
+--------------------------------------------------------------------------------
+
+You can use the code in this repository to deploy your own applications. Out of
+the box, it will run any application that meets the following requirements:
+
+- runs in a single container
+- reads MongoDB connection string from an environment variable called `ATLAS_URI`
+
+To try it with your own code, add a line to your `terraform.tfvars` file pointing
+to your container image:
+
+    app_image = '<your container URI>'
+
+If you need to add or change the environment variables that get passed into the
+container, take a look at the `google.tf` file. You can add additional `env` blocks
+next to the `ATLAS_URI` block, and/or modify that block to fit your needs.
+
+You can also add more `google_cloud_run_service` blocks to deploy additional
+services on Cloud Run, just make sure to also include a `google_cloud_run_service_iam_binding`
+block if that service needs to be accessible to the public. For more information,
+see the [`google_cloud_run_service`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_service)
+and [`google_cloud_run_service_iam_binding`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_service_iam)
+pages in the Terraform provider documentation, as well as the [Cloud Run IAM documentation](https://cloud.google.com/run/docs/securing/managing-access).
