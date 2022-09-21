@@ -29,7 +29,7 @@ resource "google_project" "prj" {
 }
 
 resource "google_project_service" "svc" {
-  project = local.project_id
+  project = google_project.prj.name
   service = "${each.value}.googleapis.com"
 
   for_each = toset([
