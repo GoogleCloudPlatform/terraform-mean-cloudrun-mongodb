@@ -168,14 +168,14 @@ When you're done, run `terraform destroy` to clean everything up:
 
     $ terraform destroy
 
-    [... snip ...]
+    [ ... snip ... ]
 
     Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
     - destroy
 
     Terraform will perform the following actions:
 
-    [... snip ...]
+    [ ... snip ... ]
 
     Plan: 0 to add, 0 to change, 10 to destroy.
 
