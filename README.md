@@ -161,7 +161,6 @@ the URL of your application:
 
 Load that up in your browser and you'll see your app running!
 
-
 ### Cleaning Up
 
 When you're done, run `terraform destroy` to clean everything up:
