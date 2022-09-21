@@ -38,10 +38,10 @@ key a short description and select the "Organization Owner" permission. Click
 "Next" and then make a note of your public and private keys. This is your last
 chance to see the private key, so be sure you've written it down somewhere safe.
 
-Next, click "Done" in the lower right, then click the gear icon in the upper left,
-between your organization name and the "Access Manager" link. This will take you
-to the Organization Settings screen. Copy your Organization ID and save it with
-your credentials.
+Next, you'll need your Organization ID. Go to [the projects page](https://cloud.mongodb.com/v2#/org)
+and click "Settings" in the list on the left side of the window to get to the
+Organization Settings screen. Your organization ID is in a box in the upper-left
+corner of the window. Copy your Organization ID and save it with your credentials.
 
 That's everything for Atlas. Now you're ready to move on to setting up Google Cloud!
 
