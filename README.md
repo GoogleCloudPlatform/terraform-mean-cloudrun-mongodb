@@ -56,7 +56,8 @@ this convenient button:
 
 This will open a Cloud Shell window and clone a copy of this repository. Cloud
 Shell has your credentials built in, and Terraform is already installed, so
-you're ready to move on to running the demo. You can also [open Cloud Shell the normal way](https://cloud.google.com/shell/docs/using-cloud-shell)
+you're ready to move on to [Choosing a Region](#choosing-a-region). You can also
+[open Cloud Shell the normal way](https://cloud.google.com/shell/docs/using-cloud-shell)
 but you'll need to clone this repo yourself.
 
 If you want to work locally, you'll need to [install the `gcloud` tool](https://cloud.google.com/sdk/docs/install).
