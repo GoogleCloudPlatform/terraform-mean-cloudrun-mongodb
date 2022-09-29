@@ -6,7 +6,8 @@ application on Google Cloud using [Cloud Run](https://cloud.google.com/run) and
 [MongoDB Atlas](https://www.mongodb.com/atlas).
 
 This demo uses [Terraform](https://www.terraform.io/) to provision and configure
-Atlas and Cloud Run and deploy [a sample application](https://github.com/mongodb-developer/mean-stack-example).
+Atlas and Cloud Run and deploy [a sample application](https://github.com/mongodb-developer/mean-stack-example) behind a Google Cloud Load Balancer across three regions.
+
 You should be able to deploy your own simple application with only minor changes
 to this repo.
 
@@ -63,7 +64,7 @@ this convenient button:
 
 This will open a Cloud Shell window and clone a copy of this repository. Cloud
 Shell has your credentials built in, and Terraform is already installed, so
-you're ready to move on to [Choosing a Region](#choosing-a-region). You can also
+you're ready to move on to [Choosing Your Regions](#choosing-your-regions). You can also
 [open Cloud Shell the normal way](https://cloud.google.com/shell/docs/using-cloud-shell)
 but you'll need to clone this repo yourself.
 
@@ -78,15 +79,16 @@ If you're using Cloud Shell, you've already got Terraform installed so feel free
 to move on to the next section. Otherwise, [download Terraform](https://www.terraform.io/downloads)
 and install it. A detailed walkthrough can be found [in this tutorial](https://learn.hashicorp.com/tutorials/terraform/install-cli).
 
-### Choosing a region
+### Choosing your regions
 
-Next, select a region for your infrastructure. For this demo it's okay to choose
-somewhere close to you, but for production use you may want to choose a different
-region. If you need some advice, check out [Best Practices for Compute Engine regions selection](https://cloud.google.com/solutions/best-practices-compute-engine-region-selection).
+Next, select the regions for your infrastructure. For Atlas you only need to specify a single region. For Google Cloud you can choose from 1 to N number of regions. 
+
+For this demo it's okay to choose somewhere close to you, but for production use you may want to choose a different
+regions. If you need some advice, check out [Best Practices for Compute Engine regions selection](https://cloud.google.com/solutions/best-practices-compute-engine-region-selection).
 
 For a list of available regions, refer Atlas's [Google Cloud provider documentation](https://www.mongodb.com/docs/atlas/reference/google-gcp/).
 Choose a region that's close to you and that supports the `M0` cluster tier. Make
-a note of both the Google Cloud region name and the Atlas region name, as you'll
+a note of both the Google Cloud region names and the Atlas region name, as you'll
 need both in the next step.
 
 ### Configuring the demo
@@ -108,11 +110,20 @@ terminal will be in the right directory but the Cloud Shell editor may not.
 Double-check to be sure you're creating the file in the same directory as this
 README.
 
-If you selected the `us-central1`/`US_CENTRAL` region then you're ready to go. If
-you selected a different region, add the following to your `terraform.tfvars` file:
+If you want to use the default regions (`us-central1`, `us-west1, and `us-east11` for Google Cloud and `US_CENTRAL` for Atlas) then you're ready to go. If
+you selected a different region, adjust the following in your `terraform.tfvars` file:
 
     atlas_cluster_region = "<Atlas region ID>"
-    google_cloud_region  = "<Google Cloud region ID>"
+    
+    variable "google_cloud_regions" {
+        type          = map(string)
+        description   = "a list of google cloud regions to deploy the cloud run service"
+        default = {
+            "region-1"  = "us-west1",
+            "region-2"  = "us-east1",
+            "region-3"  = "us-central1"
+        }
+    }
 
 Run `terraform init` again to make sure there are no new errors. If you get an
 error, check your `terraform.tfvars` file.
@@ -159,13 +170,13 @@ while Terraform sets everything up for you! When it's done, Terraform will displ
 the URL of your application:
 
     [ ... snip ... ]
-    Apply complete! Resources: 10 added, 0 changed, 0 destroyed.
+    Apply complete! Resources: 23 added, 0 changed, 0 destroyed.
 
     Outputs:
 
-    app_url = "https://<randomized url>"
+    load_balancer_ip_address = "34.149.215.8"
 
-Load that up in your browser and you'll see your app running!
+Wait a few minutes for the Load Balancer to come online, then visit that address via http in your browser and you'll see your app running. 
 
 ### Cleaning Up
 
@@ -182,7 +193,7 @@ When you're done, run `terraform destroy` to clean everything up:
 
     [ ... snip ... ]
 
-    Plan: 0 to add, 0 to change, 10 to destroy.
+    Plan: 0 to add, 0 to change, 23 to destroy.
 
     Changes to Outputs:
     - app_url = "https://example.com" -> null
