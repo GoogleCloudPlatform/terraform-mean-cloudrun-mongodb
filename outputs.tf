@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-output "app_url" {
-  value = google_cloud_run_service.app.status[0].url
+
+output "load_balancer_ip_address" {
+   value = module.lb-http.external_ip
 }

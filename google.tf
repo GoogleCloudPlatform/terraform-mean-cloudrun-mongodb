@@ -34,14 +34,25 @@ resource "google_project_service" "svc" {
 
   for_each = toset([
     "run",
+    "compute",
   ])
 }
 
+locals {
+   regions = { 
+    region-1 = "us-central1", 
+    region-2 = "us-east1", 
+    region-3 = "us-west1" }
+}
+
 resource "google_cloud_run_service" "app" {
+
+  for_each = local.regions
+    
   project = google_project.prj.name
 
   name     = "demo"
-  location = var.google_cloud_region
+  location = each.value
 
   template {
     spec {
@@ -60,10 +71,66 @@ resource "google_cloud_run_service" "app" {
 }
 
 resource "google_cloud_run_service_iam_binding" "app" {
-  location = google_cloud_run_service.app.location
-  project  = google_cloud_run_service.app.project
-  service  = google_cloud_run_service.app.name
+  
+  for_each = google_cloud_run_service.app
+
+  location = each.value.location
+  project  = each.value.project
+  service  = each.value.name
 
   role    = "roles/run.invoker"
   members = ["allUsers"]
+}
+
+module "lb-http" {
+  
+  source  = "GoogleCloudPlatform/lb-http/google//modules/serverless_negs"
+  version = "~> 6.3"
+  name    = var.lb_name
+  project = google_project.prj.name
+
+  backends = {
+    default = {
+      description = null
+      groups = [
+        for neg in google_compute_region_network_endpoint_group.serverless-neg: {
+        group = neg.id
+        }
+      ]
+      enable_cdn              = false
+      security_policy         = null
+      custom_request_headers  = null
+      custom_response_headers = null
+
+      iap_config = {
+        enable               = false
+        oauth2_client_id     = ""
+        oauth2_client_secret = ""
+      }
+      log_config = {
+        enable      = false
+        sample_rate = null
+      }
+    }
+  }
+
+  depends_on = [google_project_service.svc["compute"]]
+}
+
+
+resource "google_compute_region_network_endpoint_group" "serverless-neg" {
+
+ for_each = local.regions
+  
+  provider              = google-beta
+  name                  = "serverless-neg"
+  network_endpoint_type = "SERVERLESS"
+  region                = each.value
+  project = google_project.prj.name
+  
+  cloud_run {
+    service = google_cloud_run_service.app[each.key].name
+  }
+
+  depends_on = [google_project_service.svc["compute"]]
 }

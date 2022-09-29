@@ -27,13 +27,30 @@ variable "project_name" {
 ###-----------------------------------------------------------------------------
 
 # Please refer to https://www.mongodb.com/docs/atlas/reference/google-gcp/#std-label-google-gcp
-# for a mapping of Atlas region names to Google Cloud region names. In most cases
-# you should use the same region for both services.
+# for a mapping of Atlas region names to Google Cloud region names.
 
 variable "google_cloud_region" {
   type        = string
   description = "the Google Cloud region in which to create resources"
   default     = "us-central1"
+}
+
+variable "google_cloud_regions" {
+  type = list(object({
+    region = string
+  }))
+  description = "a list of 1-n Cloud Run regions you wish to deploy the container image to "
+  default = [
+    {
+      region = "us-west1"
+    },
+    { 
+      region = "us-central1"
+    },
+    {
+      region = "us-east1"
+    }
+  ]
 }
 
 variable "atlas_cluster_region" {
@@ -46,6 +63,12 @@ variable "app_image" {
   type        = string
   description = "the fully-qualified name of your app image"
   default     = "us-central1-docker.pkg.dev/next22-mean-stack-demo/demo-app/server:latest"
+}
+
+variable "lb_name" {
+  type        = string
+  description = "the name for the google cloud load balancer - a random suffix will be added"
+  default     = "mean-stack-lb"
 }
 
 ###-----------------------------------------------------------------------------
