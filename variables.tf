@@ -22,6 +22,12 @@ variable "project_name" {
   default     = "gcp-meanstack-demo"
 }
 
+variable "enable_ci_cd_pipline" {
+  type        = bool
+  description = "whether to build and enable a CI/CD pipeline in your project"
+  default     = false
+}
+
 ###-----------------------------------------------------------------------------
 ### region config
 ###-----------------------------------------------------------------------------
