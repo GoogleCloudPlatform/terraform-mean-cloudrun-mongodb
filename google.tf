@@ -38,16 +38,9 @@ resource "google_project_service" "svc" {
   ])
 }
 
-locals {
-   regions = { 
-    region-1 = "us-central1", 
-    region-2 = "us-east1", 
-    region-3 = "us-west1" }
-}
-
 resource "google_cloud_run_service" "app" {
 
-  for_each = local.regions
+  for_each = var.google_cloud_regions
     
   project = google_project.prj.name
 
@@ -120,7 +113,7 @@ module "lb-http" {
 
 resource "google_compute_region_network_endpoint_group" "serverless-neg" {
 
- for_each = local.regions
+ for_each = var.google_cloud_regions
   
   provider              = google-beta
   name                  = "serverless-neg"

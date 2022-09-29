@@ -29,28 +29,14 @@ variable "project_name" {
 # Please refer to https://www.mongodb.com/docs/atlas/reference/google-gcp/#std-label-google-gcp
 # for a mapping of Atlas region names to Google Cloud region names.
 
-variable "google_cloud_region" {
-  type        = string
-  description = "the Google Cloud region in which to create resources"
-  default     = "us-central1"
-}
-
 variable "google_cloud_regions" {
-  type = list(object({
-    region = string
-  }))
-  description = "a list of 1-n Cloud Run regions you wish to deploy the container image to "
-  default = [
-    {
-      region = "us-west1"
-    },
-    { 
-      region = "us-central1"
-    },
-    {
-      region = "us-east1"
-    }
-  ]
+  type          = map(string)
+  description   = "a list of google cloud regions to deploy the cloud run service"
+  default = {
+    "region-1"  = "us-west1",
+    "region-2"  = "us-east1",
+    "region-3"  = "us-central1"
+  }
 }
 
 variable "atlas_cluster_region" {
