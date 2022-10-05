@@ -44,12 +44,16 @@ resource "google_project_iam_member" "build_run_developer" {
   project = google_project.prj.name
   role   = "roles/run.developer"
   member = "serviceAccount:${google_project.prj.number}@cloudbuild.gserviceaccount.com"
+
+  depends_on = [google_project_service.ci_cd["cloudbuild"]]
 }
 
 resource "google_project_iam_member" "build_act_as" {
   project = google_project.prj.name
   role   = "roles/iam.serviceAccountUser"
   member = "serviceAccount:${google_project.prj.number}@cloudbuild.gserviceaccount.com"
+
+  depends_on = [google_project_service.ci_cd["cloudbuild"]]
 }
 
 resource "google_artifact_registry_repository" "repo" {
