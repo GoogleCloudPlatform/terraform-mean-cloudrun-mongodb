@@ -89,7 +89,7 @@ resource "google_cloudbuild_trigger" "demo" {
 
   trigger_template {
     repo_name   = google_sourcerepo_repository.repo.name
-    branch_name = "."
+    branch_name = "^main$"
   }
 
   build {
