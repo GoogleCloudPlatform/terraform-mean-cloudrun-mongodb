@@ -18,6 +18,7 @@ resource "google_project_service" "ci_cd" {
 
   for_each = toset([
     "artifactregistry",
+    "cloudbuild",
     "sourcerepo",
     "storage",
   ])
@@ -42,4 +43,38 @@ resource "google_sourcerepo_repository" "repo" {
   name    = "repo"
 
   depends_on = [google_project_service.ci_cd["sourcerepo"]]
+}
+
+resource "google_cloudbuild_trigger" "demo" {
+  project  = google_project.prj.name
+  name     = "demo"
+  location = var.google_cloud_region
+
+  trigger_template {
+    repo_name   = google_sourcerepo_repository.repo.name
+    branch_name = "."
+  }
+
+  build {
+    artifacts {
+      images = ["${local.image_path}:$COMMIT_SHA"]
+    }
+
+    step {
+      name       = "node"
+      entrypoint = "npm"
+      args       = ["install"]
+    }
+
+    step {
+      name       = "node"
+      entrypoint = "npm"
+      args       = ["test"]
+    }
+
+    step {
+      name = "gcr.io/cloud-builders/docker"
+      args = ["build", "-t", "${local.image_path}:$COMMIT_SHA", "."]
+    }
+  }
 }
