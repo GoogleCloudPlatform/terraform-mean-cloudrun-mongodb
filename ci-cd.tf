@@ -25,6 +25,24 @@ resource "google_project_service" "ci_cd" {
   ])
 }
 
+### the cloud build default service account needs to have `roles/run.developer`
+### to create and update cloud run services. it also needs to be able to act
+### as the cloud run service account. see more info in the docs:
+###
+### https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run#continuous-iam
+
+resource "google_project_iam_member" "build_run_developer" {
+  project = google_project.prj.name
+  role   = "roles/run.developer"
+  member = "serviceAccount:${google_project.prj.number}@cloudbuild.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "build_act_as" {
+  project = google_project.prj.name
+  role   = "roles/iam.serviceAccountUser"
+  member = "serviceAccount:${google_project.prj.number}@cloudbuild.gserviceaccount.com"
+}
+
 resource "google_artifact_registry_repository" "repo" {
   project  = google_project.prj.name
   location = var.google_cloud_region
@@ -76,6 +94,20 @@ resource "google_cloudbuild_trigger" "demo" {
     step {
       name = "gcr.io/cloud-builders/docker"
       args = ["build", "-t", "${local.image_path}:$COMMIT_SHA", "."]
+    }
+
+    step {
+      name = "gcr.io/cloud-builders/docker"
+      args = ["push", "${local.image_path}:$COMMIT_SHA"]
+    }
+
+    step {
+      name = "gcr.io/cloud-builders/gcloud"
+      args = [
+        "run", "deploy", google_cloud_run_service.app.name,
+        "--image", "${local.image_path}:$COMMIT_SHA",
+        "--region", var.google_cloud_region
+      ]
     }
   }
 }
