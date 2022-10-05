@@ -19,6 +19,7 @@ resource "google_project_service" "ci_cd" {
   for_each = toset([
     "artifactregistry",
     "cloudbuild",
+    "iam",
     "sourcerepo",
     "storage",
   ])
