@@ -25,6 +25,15 @@ resource "google_project_service" "ci_cd" {
   ])
 }
 
+### this allows us to inject a 30 second delay between enabling a service and
+### trying to use it. a resource that depends on this will not start until the
+### timer is up. see google_artifact_registry_repository.repo for an example.
+
+resource "time_sleep" "wait_for_services" {
+  create_duration = "30s"
+  depends_on = [google_project_service.ci_cd]
+}
+
 ### the cloud build default service account needs to have `roles/run.developer`
 ### to create and update cloud run services. it also needs to be able to act
 ### as the cloud run service account. see more info in the docs:
@@ -50,7 +59,12 @@ resource "google_artifact_registry_repository" "repo" {
   repository_id = "repo"
   format        = "DOCKER"
 
-  depends_on = [google_project_service.ci_cd["artifactregistry"]]
+  depends_on = [
+    google_project_service.ci_cd["artifactregistry"],
+
+    # wait for the service enablement to propagate before creating repo
+    time_sleep.wait_for_services,
+  ]
 }
 
 locals {
