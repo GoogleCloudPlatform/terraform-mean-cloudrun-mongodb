@@ -128,4 +128,11 @@ resource "google_cloudbuild_trigger" "demo" {
       ]
     }
   }
+
+  depends_on = [
+    google_project_service.ci_cd["cloudbuild"],
+
+    # wait for the service enablement to propagate before creating trigger
+    time_sleep.wait_for_services,
+  ]
 }
