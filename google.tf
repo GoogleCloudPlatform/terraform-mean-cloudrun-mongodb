@@ -56,6 +56,12 @@ resource "google_cloud_run_service" "app" {
     }
   }
 
+  lifecycle {
+    # this stops terraform from trying to revert to the sample app after you've
+    # pushed new changes through CI
+    ignore_changes = [template[0].spec[0].containers[0].image]
+  }
+
   depends_on = [google_project_service.svc["run"]]
 }
 

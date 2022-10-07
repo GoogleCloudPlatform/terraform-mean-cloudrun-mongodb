@@ -3,7 +3,9 @@ Cloud Run + MongoDB Atlas demo
 
 This repo contains a demo that deploys a [MEAN Stack](https://www.mongodb.com/mean-stack)
 application on Google Cloud using [Cloud Run](https://cloud.google.com/run) and
-[MongoDB Atlas](https://www.mongodb.com/atlas).
+[MongoDB Atlas](https://www.mongodb.com/atlas). It also deploys a CI/CD pipeline
+using [Cloud Build](https://cloud.google.com/build) that you can use to deploy
+your own changes (or even your own app).
 
 This demo uses [Terraform](https://www.terraform.io/) to provision and configure
 Atlas and Cloud Run and deploy [a sample application](https://github.com/mongodb-developer/mean-stack-example).
@@ -156,7 +158,7 @@ For this demo, we're going to just run `terraform apply`:
 
 If everything looks good to you, type `yes` and press enter, then go grab a snack
 while Terraform sets everything up for you! When it's done, Terraform will display
-the URL of your application:
+the URL of your application and your deployment repo:
 
     [ ... snip ... ]
     Apply complete! Resources: 10 added, 0 changed, 0 destroyed.
@@ -164,8 +166,32 @@ the URL of your application:
     Outputs:
 
     app_url = "https://<randomized url>"
+    repo_url = "https://source.developers.google.com/p/<project id>/r/repo"
 
-Load that up in your browser and you'll see your app running!
+Load the `app_url` up in your browser and you'll see the sample app running!
+
+### Making and deploying changes
+
+If you'd like to experiment with the CI/CD pipeline, now's your chance. First,
+clone a copy of [this fork of the sample application](https://github.com/bleything/mean-stack-example/).
+Next, add the `repo_url` from the Terraform output as a remote:
+
+    $ git remote add deploy <repo_url>
+
+Now you can make some changes to the application. For a simple change, try
+adding a new level in `[client/src/app/employee-form/employee-form.component.ts]`.
+If you want to try something more complex, you could try adding a new field.
+
+When you've made your changes, commit them and then push to your deploy repo:
+
+    $ git push deploy main
+
+This will kick off a build that will build the application, run `npm test`, and
+deploy the new code. You can monitor the build from the [Build history](https://console.cloud.google.com/cloud-build/builds)
+page.
+
+You can also use this pipeline to deploy your own code. See the [Next Steps](#next-steps)
+section below for more details.
 
 ### Cleaning Up
 
@@ -210,10 +236,45 @@ the box, it will run any application that meets the following requirements:
 - runs in a single container
 - reads MongoDB connection string from an environment variable called `ATLAS_URI`
 
-To try it with your own code, add a line to your `terraform.tfvars` file pointing
-to your container image:
+### Deploying your own container
+
+If you already have a container that meets those requirements, you can deploy it
+by adding a line to your `terraform.tfvars` file pointing to your container
+image:
 
     app_image = '<your container URI>'
+
+Note that if you do this after you've already run Terraform, you will need to
+[taint](https://www.terraform.io/cli/commands/taint) the Cloud Run service and
+run `terraform apply` again:
+
+    $ terraform taint google_cloud_run_service.app
+    Resource instance google_cloud_run_service.app has been marked as tainted.
+
+    $ terraform apply
+
+Tainting a resource causes it to be deleted and re-created, so don't be surprised
+when you see that in the plan.
+
+### Deploy via `git push`
+
+Another option is to use the CI/CD pipeline to build and deploy your own code.
+To do so there is one extra requirement: your application must be able to
+successfully run `npm install` and `npm test`.
+
+The process is essentially the same as described in the [Making and deploying changes](#making-and-deploying-changes)
+section above, except you'd add the remote to your own repository instead of
+the demo application.
+
+If you've already pushed other code to the deploy repo, you'll need to use
+a force push the first time:
+
+    $ git push --force deploy main
+
+As before, you can see the build status on the [Build history](https://console.cloud.google.com/cloud-build/builds)
+page.
+
+### Other notes
 
 If you need to add or change the environment variables that get passed into the
 container, take a look at the `google.tf` file. You can add additional `env` blocks
